@@ -13,19 +13,19 @@ export class Pool {
     network: ChainId;
     price0: string;
     price0Change: number;
-    price0_15: string;
-    price0Change_15: number;
-    price0_60: string;
-    price0Change_60: number;
+    price0_15: string | null;
+    price0Change_15: number | null;
+    price0_60: string | null;
+    price0Change_60: number | null;
     price1: string;
     price1Change: number;
-    price1_15: string;
-    price1Change_15: number;
-    price1_60: string;
-    price1Change_60: number;
+    price1_15: string | null;
+    price1Change_15: number | null;
+    price1_60: string | null;
+    price1Change_60: number | null;
     lastUpdate: Date;
-    lastUpdate_15: Date;
-    lastUpdate_60: Date;
+    lastUpdate_15: Date | null;
+    lastUpdate_60: Date | null;
 
     constructor(pool: Pool) {
         this.id = pool.id;
