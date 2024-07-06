@@ -1,3 +1,5 @@
+import { PoolService } from '../../src/pool/pool.service';
+
 export const poolMock = {
   id: '0x01037d4d2fbabcd3fb97b8fb97f00f00161b5fc3',
   token0: '0x249ca82617ec3dfb2589c4c17ab7ec9765350a18',
@@ -23,4 +25,15 @@ export const poolMock = {
   lastUpdate: new Date(),
   lastUpdate_15: new Date(),
   lastUpdate_60: new Date(),
+};
+
+export const poolServiceMock = {
+  provide: PoolService,
+  useValue: {
+    getPool: jest.fn().mockResolvedValue(poolMock),
+    searchPool: jest.fn().mockResolvedValue(poolMock),
+    getPools: jest.fn().mockResolvedValue([poolMock]),
+    getPoolSymbols: jest.fn().mockResolvedValue([poolMock.symbol]),
+    getTopPools: jest.fn().mockResolvedValue([poolMock]),
+  },
 };
