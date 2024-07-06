@@ -83,7 +83,7 @@
       "node_modules",
       "test"
     ],
-    "coverageDirectory": "../coverage",
+    "coverageDirectory": "coverage",
     "moduleNameMapper": {
       "commons/(.*)": "<rootDir>/../_commons_/$1"
     },

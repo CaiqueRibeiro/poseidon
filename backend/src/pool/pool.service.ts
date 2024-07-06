@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Pool } from 'commons/models/pool';
 import db from '../db';
 import { Prisma } from 'commons/data';
@@ -8,15 +8,19 @@ type SymbolArr = Array<{ _id: string }>;
 
 @Injectable()
 export class PoolService {
-  async getPool(id: string): Promise<Pool | null> {
+  async getPool(id: string): Promise<Pool> {
     const pool = await db.pools.findUnique({
       where: { id },
     });
 
+    if (!pool) {
+      throw new NotFoundException();
+    }
+
     return pool;
   }
 
-  async searchPool(symbol: string, fee: number): Promise<Pool | null> {
+  async searchPool(symbol: string, fee: number): Promise<Pool> {
     const pool = await db.pools.findFirst({
       where: {
         symbol: {
@@ -26,6 +30,10 @@ export class PoolService {
         fee,
       },
     });
+
+    if (!pool) {
+      throw new NotFoundException();
+    }
 
     return pool;
   }
@@ -40,7 +48,7 @@ export class PoolService {
   }
 
   async getPoolSymbols(): Promise<string[]> {
-    const symbols = db.pools.aggregateRaw({
+    const symbols = (await db.pools.aggregateRaw({
       pipeline: [
         {
           $group: {
@@ -51,7 +59,7 @@ export class PoolService {
           },
         },
       ],
-    }) as unknown as SymbolArr;
+    })) as unknown as SymbolArr;
 
     if (!symbols) return [];
     return symbols.map((s) => s._id).sort();
