@@ -29,6 +29,13 @@ export class PoolController {
   }
 
   @UseGuards(AuthGuard)
+  @Get('top')
+  async getTopPools() {
+    console.log('ENTROU AQUI');
+    return this, this.poolService.getTopPools();
+  }
+
+  @UseGuards(AuthGuard)
   @Get(':id')
   async getPool(@Param('id') id: string) {
     return this.poolService.getPool(id);
@@ -38,11 +45,5 @@ export class PoolController {
   @Get(':symbol/:fee')
   async searchPool(@Param('symbol') symbol: string, @Param('fee') fee: number) {
     return this.poolService.searchPool(symbol, fee);
-  }
-
-  @UseGuards(AuthGuard)
-  @Get('top')
-  async getTopPools() {
-    return this, this.poolService.getTopPools();
   }
 }

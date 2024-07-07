@@ -1,4 +1,18 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { Pool } from 'commons/models/pool';
+import { getTopPools } from '@/services/pool-service';
+
 export function TopPoolsCard() {
+    const [pools, setPools] = useState<Pool[]>([]);
+
+    useEffect(() => {
+        getTopPools()
+            .then(pools => setPools(pools))
+            .catch(err => console.error(err))
+    }, []);
+
     return (
         <div className="parent flex flex-col items-stretch justify-between flex-1 h-96">
             <h2 className="px-5 py-3 font-medium text-sm h-[10%]">Top Pools</h2>
@@ -11,81 +25,15 @@ export function TopPoolsCard() {
                         </tr>
                 </thead>
                 <tbody className="text-left flex flex-col items-start overflow-y-scroll">
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-2 w-1/3">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">Malcolm Lockyer</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">1961</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-2 w-1/3">Witchy Woman</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">The Eagles</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">1972</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-2 w-1/3">Shining Star</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">Earth, Wind, and Fire</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">1975</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-2 w-1/3">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">Malcolm Lockyer</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">1961</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-2 w-1/3">Witchy Woman</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">The Eagles</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">1972</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-2 w-1/3">Shining Star</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">Earth, Wind, and Fire</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">1975</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-2 w-1/3">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">Malcolm Lockyer</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">1961</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-2 w-1/3">Witchy Woman</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">The Eagles</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">1972</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-2 w-1/3">Shining Star</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">Earth, Wind, and Fire</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">1975</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-2 w-1/3">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">Malcolm Lockyer</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">1961</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-2 w-1/3">Witchy Woman</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">The Eagles</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">1972</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-2 w-1/3">Shining Star</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">Earth, Wind, and Fire</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">1975</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-2 w-1/3">The Sliding Mr. Bones (Next Stop, Pottersville)</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">Malcolm Lockyer</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">1961</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-2 w-1/3">Witchy Woman</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">The Eagles</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">1972</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-2 w-1/3">Shining Star</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">Earth, Wind, and Fire</td>
-                        <td scope="col" className="px-5 py-2 w-1/3">1975</td>
-                    </tr>
+                    {
+                        pools && pools.map(p => (
+                        <tr className="flex w-full" key={p.id}>
+                            <td scope="col" className="px-5 py-2 w-1/3">{p.symbol} ({p.fee / 10000}%)</td>
+                            <td scope="col" className="px-5 py-2 w-1/3">{p.price0Change_60}</td>
+                            <td scope="col" className="px-5 py-2 w-1/3">{p.price1Change_60}</td>
+                        </tr>
+                        ))
+                    }
                 </tbody>
             </table>
         </div>

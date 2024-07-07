@@ -15,7 +15,6 @@ function getProvider() {
 export async function getWallet(): Promise<string> {
     const provider = getProvider();
     const accounts = await provider.send('eth_requestAccounts', []);
-
     if(!accounts || accounts.length === 0) {
         throw new Error('Metamask did not allow access to accounts');
     }
