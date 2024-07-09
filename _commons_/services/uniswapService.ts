@@ -1,6 +1,6 @@
 import axios from 'axios';
-import Config from '../config';
-import { PoolData, TokenData} from './uniswapTypes';
+import Config from '../configBase';
+import { PoolData, TokenData } from './uniswapTypes';
 
 export async function getTopPools(count: number = 20, skip: number = 0): Promise<PoolData[]> {
     const query = `

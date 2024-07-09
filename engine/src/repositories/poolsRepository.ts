@@ -2,7 +2,7 @@ import { ChainId } from 'commons/models/chainId';
 import connect from './db';
 import { Pool } from 'commons/models/pool';
 import { Exchange } from 'commons/models/exchange';
-import { PoolData } from 'src/services/uniswapTypes';
+import { PoolData } from 'commons/services/uniswapTypes';
 import Config from '../config';
 
 async function countPools(exchange: Exchange, network: ChainId): Promise<number> {
@@ -46,7 +46,7 @@ function buildSet(newPrice: number, pool: any, tokenNumber: string, minutes: num
         const oldPriceX = Number(pool[`price${tokenNumber}_${minutes}`]);
         const priceChangeX = ((newPrice - oldPriceX) / oldPriceX) * 100;
 
-        setObj[`price${tokenNumber}_${minutes}`] = `${newPrice}`;
+        setObj[`price${tokenNumber}_${minutes}`] = newPrice;
         setObj[`price${tokenNumber}Change_${minutes}`] = priceChangeX && Number.isFinite(priceChangeX) ? priceChangeX : 0;
         setObj[`lastUpdate_${minutes}`] = new Date();
     }
@@ -63,7 +63,7 @@ function buildSetFull(pool: Pool, newPrice: number, tokenNumber: string) {
     const priceChange = ((newPrice - oldPrice) / oldPrice) * 100;
 
     const setObj: any = {};
-    setObj[`price${tokenNumber}`] = `${newPrice}`;
+    setObj[`price${tokenNumber}`] = newPrice;
     setObj[`price${tokenNumber}Change`] = priceChange && Number.isFinite(priceChange) ? priceChange : 0;
     setObj.lastUpdate = new Date();
 

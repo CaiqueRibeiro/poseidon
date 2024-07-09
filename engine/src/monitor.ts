@@ -1,6 +1,6 @@
 import Config from './config';
 import poolsRepository from './repositories/poolsRepository';
-import { getTopPools } from './services/uniswapService';
+import { getTopPools } from 'commons/services/uniswapService';
 import WSSInit from './wss';
 
 const WSS = WSSInit();

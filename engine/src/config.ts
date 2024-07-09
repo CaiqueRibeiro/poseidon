@@ -10,7 +10,6 @@ export default class Config extends ConfigBase {
     static NETWORK_2: ChainId = Config.getNetwork(Config.NETWORK);
     static EXCHANGE: string = `${process.env.EXCHANGE}`;
     static EXCHANGE_2: Exchange = Config.getExchange(Config.EXCHANGE);
-    static SWAP_GRAPH_URL: string = `${process.env.SWAP_GRAPH_URL}`;
     static POOL_COUNT: number = parseInt(`${process.env.POOL_COUNT}`);
 
 
