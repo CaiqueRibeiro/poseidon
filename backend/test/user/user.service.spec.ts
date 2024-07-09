@@ -15,6 +15,8 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 
+jest.mock('commons/services/poseidonPayService.ts');
+
 describe('UserService tests', () => {
   let userService: UserService;
 

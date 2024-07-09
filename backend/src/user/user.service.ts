@@ -11,6 +11,7 @@ import { UserDTO } from './user.dto';
 import { Status } from 'commons/models/status';
 import Config from '../config';
 import { encrypt, decrypt } from 'commons/services/cryptoService';
+import { pay } from 'commons/services/poseidonPayService';
 
 @Injectable()
 export class UserService {
@@ -117,7 +118,8 @@ export class UserService {
   async payUser(address: string): Promise<User> {
     const user = await this.getUserByWallet(address);
     if (user.status !== Status.BLOCKED) throw new ForbiddenException();
-    // todo: pay via blockchain
+
+    await pay(user.address);
 
     const updatedUser = await db.users.update({
       where: { id: user.id },
