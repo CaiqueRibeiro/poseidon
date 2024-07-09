@@ -4,7 +4,8 @@ import ConfigBase from 'commons/configBase';
 
 export default class Config extends ConfigBase {
     static WS_PORT: number = parseInt(`${process.env.WS_PORT}`);
-    static MONITOR_INTERVAL: number = parseInt(`${process.env.INTERVAL}`);
+    static MONITOR_INTERVAL: number = parseInt(`${process.env.MONITOR_INTERVAL}`);
+    static CHARGE_INTERVAL: number = parseInt(`${process.env.CHARGE_INTERVAL}`);
     static NETWORK: string = `${process.env.NETWORK}`;
     static NETWORK_2: ChainId = Config.getNetwork(Config.NETWORK);
     static EXCHANGE: string = `${process.env.EXCHANGE}`;
