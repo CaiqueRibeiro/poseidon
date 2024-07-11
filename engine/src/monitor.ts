@@ -2,6 +2,7 @@ import Config from './config';
 import poolsRepository from './repositories/poolsRepository';
 import { getTopPools } from 'commons/services/uniswapService';
 import WSSInit from './wss';
+import poseidonExecution from './poseidon';
 
 const WSS = WSSInit();
 
@@ -15,12 +16,13 @@ async function executionCycle() {
         const bulResult = [];
         for(let j = 0; j < pools.length; j++) {
             const pool = pools[j];
-            const result = await poolsRepository.updatePrices(pool);
-            if(!result) continue;
+            const poolResult = await poolsRepository.updatePrices(pool);
+            if(!poolResult) continue;
 
-            bulResult.push(result);
+            bulResult.push(poolResult);
+            poseidonExecution(poolResult);
 
-            console.log(`Price for ${result.symbol} (${result.fee / 10000}%) is ${Number(result.price0).toFixed(3)}`);
+            console.log(`Price for ${poolResult.symbol} (${poolResult.fee / 10000}%) is ${Number(poolResult.price0).toFixed(3)}`);
         }
 
         WSS.broadcast({
