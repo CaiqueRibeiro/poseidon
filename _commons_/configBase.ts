@@ -19,8 +19,7 @@ export default class ConfigBase {
 
     // blockchain
     static POSEIDON_PAY_CONTRACT: string = `${process.env.POSEIDON_PAY_CONTRACT}`;
-    static INFURA_NETWORK: string = `${process.env.INFURA_NETWORK}`;
-    static INFURA_API_KEY: string = `${process.env.INFURA_API_KEY}`;
+    static RPC_NODE: string = `${process.env.RPC_NODE || "http://127.0.0.1:8545"}`;
     static ADMIN_PRIVATE_KEY: string = `${process.env.ADMIN_PRIVATE_KEY}`;
 
     // security

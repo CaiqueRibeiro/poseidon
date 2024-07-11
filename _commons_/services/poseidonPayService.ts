@@ -2,8 +2,8 @@ import { ethers } from "ethers";
 import {abi as ABI} from "./PoseidonPay.json";
 import ConfigBase from "../configBase";
 
-function getProvider(): ethers.InfuraProvider {
-    return new ethers.InfuraProvider(ConfigBase.INFURA_NETWORK, ConfigBase.INFURA_API_KEY);
+function getProvider(): ethers.JsonRpcProvider {
+    return new ethers.InfuraProvider(ConfigBase.RPC_NODE);
 }
 
 function getContract(): ethers.Contract {
