@@ -1,4 +1,5 @@
 import { AdminNavbar } from "@/components/Dashboard/admin-navbar";
+import { PlayArrow, StopRounded, Edit, Delete } from '@mui/icons-material';
 
 export default function Automations() {
     return (
@@ -8,78 +9,55 @@ export default function Automations() {
         </section>
 
         <section className="flex-1 -mt-20 grid h-3/5 px-14">
-          <div className="bg-white h-96 overflow-hidden rounded-md shadow-md parent flex flex-col items-stretch justify-between flex-1">
-            <h2 className="px-5 py-3 font-medium text-sm h-[10%]">Card tables</h2>
-            <table className="child table-auto text-sm flex flex-col flex-1 h-[90%]">
+          <div className="bg-white h-fit max-h-96 overflow-hidden rounded-md shadow-md parent flex flex-col items-stretch justify-between flex-1">
+          <div className="px-7 py-4 flex items-center justify-between">
+                    <h2 className="font-medium text-sm h-[10%]"></h2>
+                    <button className="bg-sky-500 text-white rounded-sm px-3 py-1 font-semibold text-sm hover:bg-sky-600">
+                      New Automation
+                    </button>
+                </div>            <table className="child table-auto text-sm flex flex-col flex-1 h-[90%]">
                 <thead className="bg-gray-100 text-left uppercase">
                     <tr className="flex w-full">
-                        <th scope="col" className="px-5 py-2 w-1/5">Project</th>
-                        <th scope="col" className="px-5 py-2 w-1/5">Budget</th>
-                        <th scope="col" className="px-5 py-2 w-1/5">Status</th>
-                        <th scope="col" className="px-5 py-2 w-1/5">Users</th>
-                        <th scope="col" className="px-5 py-2 w-1/5">Completion</th>
+                        <th scope="col" className="px-5 py-2 w-1/4">Automation</th>
+                        <th scope="col" className="px-5 py-2 w-1/4">Position</th>
+                        <th scope="col" className="px-5 py-2 w-1/4">Status</th>
+                        <th scope="col" className="px-5 py-2 w-1/4">Actions</th>
                         </tr>
                 </thead>
                 <tbody className="text-left flex flex-col items-start overflow-y-scroll">
                     <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-6 w-1/5 font-bold">Facebook</td>
-                        <td scope="col" className="px-5 py-6 w-1/5">1394</td>
-                        <td scope="col" className="px-5 py-6 w-1/5 flex items-center gap-2">
+                        <td scope="col" className="px-5 py-4 w-1/4 font-bold">Automation 1</td>
+                        <td scope="col" className="px-5 py-4 w-1/4 flex items-center gap-2">
                           <div className="rounded-full h-2 w-2 bg-orange-500"></div>
-                          pending
+                          Ready to buy
                         </td>
-                        <td scope="col" className="px-5 py-6 w-1/5">10%</td>
-                        <td scope="col" className="px-5 py-6 w-1/5">10%</td>
+                        <td scope="col" className="px-5 py-4 w-1/4 flex items-center gap-2">
+                          <div className="rounded-full h-2 w-2 bg-orange-500"></div>
+                          Pending
+                        </td>
+                        <td scope="col" className="px-5 py-4 w-1/5">
+                          <PlayArrow />
+                          <StopRounded />
+                          <Edit />
+                          <Delete />
+                        </td>
                     </tr>
                     <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-6 w-1/5 font-bold">Google</td>
-                        <td scope="col" className="px-5 py-6 w-1/5">19394</td>
-                        <td scope="col" className="px-5 py-6 w-1/5 flex items-center gap-2">
-                          <div className="rounded-full h-2 w-2 bg-red-500"></div>
-                          delayed
+                        <td scope="col" className="px-5 py-4 w-1/4 font-bold">Automation 1</td>
+                        <td scope="col" className="px-5 py-4 w-1/4 flex items-center gap-2">
+                          <div className="rounded-full h-2 w-2 bg-orange-500"></div>
+                          Ready to buy
                         </td>
-                        <td scope="col" className="px-5 py-6 w-1/5">1394</td>
-                        <td scope="col" className="px-5 py-6 w-1/5">10%</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-6 w-1/5 font-bold">Instagram</td>
-                        <td scope="col" className="px-5 py-6 w-1/5">355</td>
-                        <td scope="col" className="px-5 py-6 w-1/5 flex items-center gap-2">
-                          <div className="rounded-full h-2 w-2 bg-emerald-400"></div>
-                          completed
+                        <td scope="col" className="px-5 py-4 w-1/4 flex items-center gap-2">
+                          <div className="rounded-full h-2 w-2 bg-orange-500"></div>
+                          Pending
                         </td>
-                        <td scope="col" className="px-5 py-6 w-1/5">1394</td>
-                        <td scope="col" className="px-5 py-6 w-1/5">10%</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-6 w-1/5 font-bold">X</td>
-                        <td scope="col" className="px-5 py-6 w-1/5">743</td>
-                        <td scope="col" className="px-5 py-6 w-1/5 flex items-center gap-2">
-                          <div className="rounded-full h-2 w-2 bg-sky-500"></div>
-                          on schedule
+                        <td scope="col" className="px-5 py-4 w-1/5">
+                          <PlayArrow />
+                          <StopRounded />
+                          <Edit />
+                          <Delete />
                         </td>
-                        <td scope="col" className="px-5 py-6 w-1/5">1394</td>
-                        <td scope="col" className="px-5 py-6 w-1/5">10%</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-6 w-1/5 font-bold">X</td>
-                        <td scope="col" className="px-5 py-6 w-1/5">743</td>
-                        <td scope="col" className="px-5 py-6 w-1/5 flex items-center gap-2">
-                          <div className="rounded-full h-2 w-2 bg-sky-500"></div>
-                          on schedule
-                        </td>
-                        <td scope="col" className="px-5 py-6 w-1/5">1394</td>
-                        <td scope="col" className="px-5 py-6 w-1/5">10%</td>
-                    </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-6 w-1/5 font-bold">X</td>
-                        <td scope="col" className="px-5 py-6 w-1/5">743</td>
-                        <td scope="col" className="px-5 py-6 w-1/5 flex items-center gap-2">
-                          <div className="rounded-full h-2 w-2 bg-sky-500"></div>
-                          on schedule
-                        </td>
-                        <td scope="col" className="px-5 py-6 w-1/5">1394</td>
-                        <td scope="col" className="px-5 py-6 w-1/5">10%</td>
                     </tr>
                 </tbody>
             </table>

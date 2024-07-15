@@ -31,7 +31,6 @@ export class PoolController {
   @UseGuards(AuthGuard)
   @Get('top')
   async getTopPools() {
-    console.log('ENTROU AQUI');
     return this, this.poolService.getTopPools();
   }
 
