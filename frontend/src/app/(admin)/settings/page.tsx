@@ -75,7 +75,7 @@ export default function Settings() {
                     <div className="flex flex-col gap-2 pb-5">
                         <h3 className="text-sm text-gray-500 uppercase">User Information</h3>
                         <div className="flex flex-col justify-start gap-1 w-1/2">
-                            <label htmlFor="email">NAME</label>
+                            <label htmlFor="name">NAME</label>
                             <input
                             id="name"
                             type="text"
@@ -93,7 +93,7 @@ export default function Settings() {
                             onChange={onUserChange}
                             className="p-2 rounded-sm bg-gray-200 border border-white focus:bg-white focus:outline-none font-light" />
 
-                            <label className="mt-4" htmlFor="email">PLAN</label>
+                            <label className="mt-4" htmlFor="planId">PLAN</label>
                             <input
                             id="planId"
                             type="string"

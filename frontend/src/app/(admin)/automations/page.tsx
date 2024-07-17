@@ -1,7 +1,16 @@
+'use client';
+
 import { AdminNavbar } from "@/components/Dashboard/admin-navbar";
 import { PlayArrow, StopRounded, Edit, Delete } from '@mui/icons-material';
+import { useRouter } from 'next/navigation';
 
 export default function Automations() {
+    const { push } = useRouter();
+
+    function btnNewAutomationClick() {
+      push('automations/new');
+    }
+
     return (
       <div className="min-h-screen flex flex-1 flex-col overflow-y-scroll">
         <section className="bg-cyan-950 h-2/5 flex flex-col items-stretch justify-start px-14 py-2">
@@ -12,7 +21,7 @@ export default function Automations() {
           <div className="bg-white h-fit max-h-96 overflow-hidden rounded-md shadow-md parent flex flex-col items-stretch justify-between flex-1">
           <div className="px-7 py-4 flex items-center justify-between">
                     <h2 className="font-medium text-sm h-[10%]"></h2>
-                    <button className="bg-sky-500 text-white rounded-sm px-3 py-1 font-semibold text-sm hover:bg-sky-600">
+                    <button className="bg-sky-500 text-white rounded-sm px-3 py-1 font-semibold text-sm hover:bg-sky-600" onClick={btnNewAutomationClick}>
                       New Automation
                     </button>
                 </div>            <table className="child table-auto text-sm flex flex-col flex-1 h-[90%]">
