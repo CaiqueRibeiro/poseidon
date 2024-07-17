@@ -1,13 +1,15 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { AdminNavbar } from "@/components/Dashboard/admin-navbar";
 import { Alert } from "@/components/Alert";
 import { RadioGroup } from "@/components/RadioGroup";
 import { Automation } from "commons/models/automation";
 import { ChainId } from "commons/models/chainId";
 import { Exchange } from "commons/models/exchange";
+import { PoolInput } from "./pool-input";
+import { Pool } from "commons/models/pool";
 
 export default function AutomationManagement() {
     const defaultAutomation = {
@@ -18,10 +20,10 @@ export default function AutomationManagement() {
     } as Automation;
 
     const [automation, setAutomation] = useState<Automation>(defaultAutomation);
+    const [pool, setPool] = useState<Pool>({} as Pool);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>("");
 
-    const { push } = useRouter();
     const queryString = useSearchParams();
     const automationId = queryString.get("id");
 
@@ -34,13 +36,27 @@ export default function AutomationManagement() {
         setAutomation((prevState: any) => ({ ...prevState, [event.target.id]: event.target.value }));
     }
 
+    function onPoolChange(pool: Pool | null) {
+        setAutomation((prevState: any) => ({ ...prevState, poolId: pool ? pool.id : null }));
+        setPool(pool || {} as Pool);
+    }
+
     async function handleSubmit() {
+        if(!automation.name) {
+            setError('Automation name is required');
+            return;
+        }
+        if(!automation.poolId) {
+            setError('Automation pool ID is required');
+            return;
+        }
         if(!confirm('This operation will cost some wei. Are you sure?')) return;
         setError('');
         setIsLoading(true);
         alert(JSON.stringify(automation));
         // save automation
     }
+
     return (
       <div className="min-h-screen flex flex-1 flex-col overflow-y-scroll">
         <section className="bg-cyan-950 h-2/5 flex flex-col items-stretch justify-start px-14 py-2">
@@ -85,7 +101,6 @@ export default function AutomationManagement() {
                             onChange={onAutomationChange}
                         />
 
-
                         <RadioGroup
                             id="isOpened"
                             textOn="Is Opened"
@@ -97,42 +112,7 @@ export default function AutomationManagement() {
 
                     <div className="flex flex-col gap-2 py-5">
                         <h3 className="text-sm text-gray-500 uppercase">Pool</h3>
-                        <div className="flex flex-row justify-start gap-5 w-1/2">
-                            <div className="flex flex-col justify-start gap-1 w-1/2">
-                                <label htmlFor="email" className="uppercase">Network</label>
-                                <input
-                                id="network"
-                                type="number"
-                                placeholder="Choose a network"
-                                value={automation.network || ''}
-                                onChange={onAutomationChange}
-                                className="p-2 rounded-sm bg-gray-200 border border-white focus:bg-white focus:outline-none font-light" />
-                            </div>
-
-                            <div className="flex flex-col justify-start gap-1 w-1/2">
-                                <label htmlFor="email" className="uppercase">Network</label>
-                                <input
-                                id="network"
-                                type="number"
-                                placeholder="Choose a network"
-                                value={automation.network || ''}
-                                onChange={onAutomationChange}
-                                className="p-2 rounded-sm bg-gray-200 border border-white focus:bg-white focus:outline-none font-light" />
-                            </div>
-                        </div>
-
-                        <div className="flex flex-row justify-start gap-5 w-1/2">
-                            <div className="flex flex-col justify-start gap-1 w-1/2">
-                                <label htmlFor="email" className="uppercase">Network</label>
-                                <input
-                                id="network"
-                                type="number"
-                                placeholder="Choose a network"
-                                value={automation.network || ''}
-                                onChange={onAutomationChange}
-                                className="p-2 rounded-sm bg-gray-200 border border-white focus:bg-white focus:outline-none font-light" />
-                            </div>
-                        </div>
+                        <PoolInput poolId={automation.poolId} onError={setError} onChange={onPoolChange} />
                     </div>
 
                     <div className="flex flex-col gap-2 pt-5">

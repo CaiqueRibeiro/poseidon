@@ -42,7 +42,7 @@ function buildSet(newPrice: number, pool: any, tokenNumber: string, minutes: num
     const setObj: any = {};
     const xMinutesAgo = new Date(new Date().getTime() - (minutes * 60 * 1000)); // X minutes in the past
 
-    if(pool[`lastUpdate_${minutes}`] <= xMinutesAgo) {
+    if(pool[`lastUpdate_${minutes}`] <= xMinutesAgo) { // just updates if last update cycle was older than xMinutesAgo
         const oldPriceX = Number(pool[`price${tokenNumber}_${minutes}`]);
         const priceChangeX = ((newPrice - oldPriceX) / oldPriceX) * 100;
 

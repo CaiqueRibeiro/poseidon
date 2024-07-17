@@ -41,8 +41,8 @@ export class PoolController {
   }
 
   @UseGuards(AuthGuard)
-  @Get(':symbol/:fee')
-  async searchPool(@Param('symbol') symbol: string, @Param('fee') fee: number) {
-    return this.poolService.searchPool(symbol, fee);
+  @Get('search/:symbol')
+  async searchPool(@Param('symbol') symbol: string) {
+    return this.poolService.searchPool(symbol);
   }
 }

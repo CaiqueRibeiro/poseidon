@@ -20,14 +20,13 @@ export class PoolService {
     return pool;
   }
 
-  async searchPool(symbol: string, fee: number): Promise<Pool> {
-    const pool = await db.pools.findFirst({
+  async searchPool(symbol: string): Promise<Pool[]> {
+    const pool = await db.pools.findMany({
       where: {
         symbol: {
           equals: symbol,
           mode: 'insensitive',
         },
-        fee,
       },
     });
 
@@ -84,7 +83,6 @@ export class PoolService {
         (v.price0Change_60 || 0) + Math.abs(v.price1Change_60 || 0);
     });
 
-    // aaa
     const top1Pools = (await db.pools.findMany({
       take: 5,
       where: {

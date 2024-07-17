@@ -9,8 +9,8 @@ export async function getPool(identifier: string): Promise<Pool> {
     return response.data;
 }
 
-export async function searchPool(symbol: string, fee: number): Promise<Pool> {
-    const response = await axios.get(`${BACKEND_URL}/${symbol}/${fee}`);
+export async function searchPool(symbol: string): Promise<Pool[]> {
+    const response = await axios.get(`${BACKEND_URL}/search/${symbol.trim()}`);
     return response.data;
 }
 
