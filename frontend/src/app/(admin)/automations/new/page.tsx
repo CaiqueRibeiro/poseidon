@@ -5,11 +5,12 @@ import { useSearchParams } from "next/navigation";
 import { AdminNavbar } from "@/components/Dashboard/admin-navbar";
 import { Alert } from "@/components/Alert";
 import { RadioGroup } from "@/components/RadioGroup";
-import { Automation } from "commons/models/automation";
+import { Automation, Condition } from "commons/models/automation";
 import { ChainId } from "commons/models/chainId";
 import { Exchange } from "commons/models/exchange";
 import { PoolInput } from "./pool-input";
 import { Pool } from "commons/models/pool";
+import { ConditionInput } from "./condition-input";
 
 export default function AutomationManagement() {
     const defaultAutomation = {
@@ -39,6 +40,14 @@ export default function AutomationManagement() {
     function onPoolChange(pool: Pool | null) {
         setAutomation((prevState: any) => ({ ...prevState, poolId: pool ? pool.id : null }));
         setPool(pool || {} as Pool);
+    }
+
+    function onOpenConditionChange(condition: Condition) {
+        setAutomation((prevState: any) => ({ ...prevState, openCondition: condition }));
+    }
+
+    function onCloseConditionChange(condition: Condition) {
+        setAutomation(prevState => ({ ...prevState, closeCondition: condition }));
     }
 
     async function handleSubmit() {
@@ -117,16 +126,36 @@ export default function AutomationManagement() {
 
                     <div className="flex flex-col gap-2 pt-5">
                         <h3 className="text-sm text-gray-500 uppercase">Strategy</h3>
+                        <ConditionInput
+                            id="openCondition"
+                            title="Open Condition"
+                            symbol0={pool.symbol0}
+                            symbol1={pool.symbol1}
+                            condition={automation.openCondition}
+                            onChange={onOpenConditionChange}
+                        />
+
                         <div className="flex flex-col justify-start gap-1 w-1/2">
                             <label htmlFor="nextAmount" className="uppercase">Trade Amount</label>
                             <input
                             id="nextAmount"
                             type="text"
-                            placeholder="Trade amount"
-                            value={automation.nextAmount || '0'}
-                            onChange={onAutomationChange}
+                            value={automation.nextAmount}
+                            onChange={evt => {
+                                if(isNaN(Number(evt.target.value))) return;
+                                onAutomationChange(evt)
+                            }}
                             className="p-2 rounded-sm bg-gray-200 border border-white focus:bg-white focus:outline-none font-light" />
                         </div>
+
+                        <ConditionInput
+                            id="closeCondition"
+                            title="Close Condition"
+                            symbol0={pool.symbol0}
+                            symbol1={pool.symbol1}
+                            condition={automation.closeCondition}
+                            onChange={onCloseConditionChange}
+                        />
                     </div>
                 </form>
            </div>
