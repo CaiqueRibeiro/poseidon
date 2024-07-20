@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AdminNavbar } from "@/components/Dashboard/admin-navbar";
 import { Alert } from "@/components/Alert";
 import { RadioGroup } from "@/components/RadioGroup";
@@ -11,6 +11,7 @@ import { Exchange } from "commons/models/exchange";
 import { PoolInput } from "./pool-input";
 import { Pool } from "commons/models/pool";
 import { ConditionInput } from "./condition-input";
+import { addAutomation, getAutomation, updateAutomation } from "@/services/automation-service";
 
 export default function AutomationManagement() {
     const defaultAutomation = {
@@ -18,6 +19,7 @@ export default function AutomationManagement() {
         isActive: false,
         network: ChainId.MAINNET,
         exchange: Exchange.Uniswap,
+        nextAmount: '0',
     } as Automation;
 
     const [automation, setAutomation] = useState<Automation>(defaultAutomation);
@@ -25,12 +27,16 @@ export default function AutomationManagement() {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>("");
 
+    const { push } = useRouter();
+
     const queryString = useSearchParams();
     const automationId = queryString.get("id");
 
     useEffect(() => {
         if(!automationId) return;
-        // get automation
+        getAutomation(automationId)
+            .then(automation => setAutomation(automation))
+            .catch(err => setError(err.response ? JSON.stringify(err.response.data) : err.message));
     }, [automationId]);
 
     function onAutomationChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -62,8 +68,18 @@ export default function AutomationManagement() {
         if(!confirm('This operation will cost some wei. Are you sure?')) return;
         setError('');
         setIsLoading(true);
-        alert(JSON.stringify(automation));
-        // save automation
+        let promise: Promise<Automation>;
+        if(automationId) {
+            promise = updateAutomation(automationId, automation);
+        } else {
+            promise = addAutomation(automation);
+        }
+        promise
+            .then(automation => push('/automations'))
+            .catch(err => {
+                setIsLoading(false);
+                setError(err.response ? JSON.stringify(err.response.data) : err.message);
+            });
     }
 
     return (
@@ -135,8 +151,10 @@ export default function AutomationManagement() {
                             onChange={onOpenConditionChange}
                         />
 
-                        <div className="flex flex-col justify-start gap-1 w-1/2">
-                            <label htmlFor="nextAmount" className="uppercase">Trade Amount</label>
+                        <div className="flex flex-col justify-start gap-1 w-1/4">
+                            <label htmlFor="nextAmount" className="uppercase">
+                                Trade Amount <span className="text-xs">({automation.isOpened ? `${pool.symbol0 || 'Symbol0'} to sell` : `${pool.symbol1 || 'Symbol1'} to buy ${pool.symbol0 || 'Symbol0'}` })</span>
+                            </label>
                             <input
                             id="nextAmount"
                             type="text"

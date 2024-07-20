@@ -38,8 +38,12 @@ export function PoolInput(props: PoolInputProps) {
                 }
             })
             .then(pool => {
-                pool ? setSymbol(pool.symbol) : setSymbol("ANY");
-                props.onChange(pool || null);
+                if(pool) {
+                    setSymbol(pool.symbol);
+                    props.onChange(pool || null);
+                } else {
+                 setSymbol("ANY");
+                }
             })
             .catch(err => props.onError(err.response ? JSON.stringify(err.response.data) : err.message));
     }, [props.poolId]);
@@ -53,7 +57,7 @@ export function PoolInput(props: PoolInputProps) {
     }
 
     function onPoolChange(pool?: Pool) {
-        props.onChange(pool || null);
+        props.onChange({ ...pool, symbol0: "BTC", symbol1: "WETH" } as Pool || null);
     }
 
     return (

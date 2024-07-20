@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "copy-files": "cp -r ../_commons_/data ./dist/_commons_/data",
+    "copy-files": "yes | cp -rf ../_commons_/data ./dist/_commons_/data",
     "build": "nest build && npm run copy-files",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",

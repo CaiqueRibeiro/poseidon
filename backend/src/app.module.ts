@@ -7,6 +7,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import Config from './config';
 import { UserModule } from './user/user.module';
 import { PoolModule } from './pool/pool.module';
+import { AutomationModule } from './automation/automation.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { PoolModule } from './pool/pool.module';
     }),
     UserModule,
     PoolModule,
+    AutomationModule,
     AuthModule,
   ],
   controllers: [AppController],

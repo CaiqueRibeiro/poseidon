@@ -23,15 +23,15 @@ model tokens {
 }
 
 model pools {
-  id              String    @id @map("_id")
+  id              String        @id @map("_id")
   token0          String // token address
   token1          String
   symbol          String
   symbol0         String // token symbol
   symbol1         String
   fee             Int
-  exchange        Int       @default(1)
-  network         Int       @default(1)
+  exchange        Int           @default(1)
+  network         Int           @default(1)
   price0          Float
   price0Change    Float
   price0_15       Float?
@@ -47,19 +47,45 @@ model pools {
   lastUpdate      DateTime
   lastUpdate_15   DateTime?
   lastUpdate_60   DateTime?
+  automations     automations[] @ignore
 }
 
 model users {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  address        String   @unique
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  address        String        @unique
   name           String
   email          String
-  status         Int      @default(1)
-  network        Int      @default(1)
+  status         Int           @default(1)
+  network        Int           @default(1)
   planId         String
   privateKey     String
   activationCode String
   activationDate DateTime
+  automations    automations[]
+
+  @@index([email])
+}
+
+type Condition {
+  field    String
+  operator String
+  value    String
+}
+
+model automations {
+  id             String     @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String     @db.ObjectId
+  user           users      @relation(fields: [userId], references: [id])
+  exchange       Int        @default(1)
+  network        Int        @default(1)
+  name           String
+  poolId         String?
+  pool           pools?     @relation(fields: [poolId], references: [id])
+  openCondition  Condition
+  closeCondition Condition?
+  isOpened       Boolean    @default(false)
+  isActive       Boolean    @default(false)
+  nextAmount     String
 }
 
 model plans {
