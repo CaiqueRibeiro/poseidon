@@ -1,11 +1,24 @@
 'use client';
 
 import { AdminNavbar } from "@/components/Dashboard/admin-navbar";
-import { PlayArrow, StopRounded, Edit, Delete } from '@mui/icons-material';
+import { getAutomations } from "@/services/automation-service";
+import { Automation } from "commons/models/automation";
 import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { AutomationRow } from "./automation-row";
 
 export default function Automations() {
+  const [automations, setAutomations] = useState<Automation[]>([]);
+  const [reload, setReload] = useState<number>(0);
+
     const { push } = useRouter();
+
+    useEffect(() => {
+      getAutomations(1, 100)
+        .then(automations => setAutomations(automations))
+        .catch(err => alert(err.response ? JSON.stringify(err.response.data) : err.message))
+      ;
+    }, [reload]);
 
     function btnNewAutomationClick() {
       push('automations/new');
@@ -18,7 +31,7 @@ export default function Automations() {
         </section>
 
         <section className="flex-1 -mt-20 grid h-3/5 px-14">
-          <div className="bg-white h-fit max-h-96 overflow-hidden rounded-md shadow-md parent flex flex-col items-stretch justify-between flex-1">
+          <div className="bg-white h-fit max-h-96 rounded-md shadow-md parent flex flex-col items-stretch justify-between flex-1">
           <div className="px-7 py-4 flex items-center justify-between">
                     <h2 className="font-medium text-sm h-[10%]"></h2>
                     <button className="bg-sky-500 text-white rounded-sm px-3 py-1 font-semibold text-sm hover:bg-sky-600" onClick={btnNewAutomationClick}>
@@ -33,41 +46,17 @@ export default function Automations() {
                         <th scope="col" className="px-5 py-2 w-1/4">Actions</th>
                         </tr>
                 </thead>
-                <tbody className="text-left flex flex-col items-start overflow-y-scroll">
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-4 w-1/4 font-bold">Automation 1</td>
-                        <td scope="col" className="px-5 py-4 w-1/4 flex items-center gap-2">
-                          <div className="rounded-full h-2 w-2 bg-orange-500"></div>
-                          Ready to buy
-                        </td>
-                        <td scope="col" className="px-5 py-4 w-1/4 flex items-center gap-2">
-                          <div className="rounded-full h-2 w-2 bg-orange-500"></div>
-                          Pending
-                        </td>
-                        <td scope="col" className="px-5 py-4 w-1/5">
-                          <PlayArrow />
-                          <StopRounded />
-                          <Edit />
-                          <Delete />
-                        </td>
+                <tbody className="text-left flex max-h-72 flex-col items-start overflow-y-scroll">
+                  {
+                    automations.length > 0
+                    ? automations.map(automation => <AutomationRow key={automation.id!} data={automation} onUpdate={() => setReload(Date.now)} />)
+                    :
+                    <tr>
+                      <td colSpan={4} className="border-t-0 px-6 align-middle border-l-0 text-xs whitespace-nowrap p-4">
+                        0 automations found. Create one.
+                      </td>
                     </tr>
-                    <tr className="flex w-full">
-                        <td scope="col" className="px-5 py-4 w-1/4 font-bold">Automation 1</td>
-                        <td scope="col" className="px-5 py-4 w-1/4 flex items-center gap-2">
-                          <div className="rounded-full h-2 w-2 bg-orange-500"></div>
-                          Ready to buy
-                        </td>
-                        <td scope="col" className="px-5 py-4 w-1/4 flex items-center gap-2">
-                          <div className="rounded-full h-2 w-2 bg-orange-500"></div>
-                          Pending
-                        </td>
-                        <td scope="col" className="px-5 py-4 w-1/5">
-                          <PlayArrow />
-                          <StopRounded />
-                          <Edit />
-                          <Delete />
-                        </td>
-                    </tr>
+                  }
                 </tbody>
             </table>
            </div>
