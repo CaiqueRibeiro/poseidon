@@ -34,20 +34,21 @@ describe('PoolController tests', () => {
   });
 
   it('should search pool', async () => {
-    const pool = await poolController.searchPool(poolMock.symbol, poolMock.fee);
-    expect(pool).toBeDefined();
-    expect(pool.id).toEqual(poolMock.id);
-    expect(pool.symbol).toEqual(poolMock.symbol);
-    expect(pool.fee).toEqual(poolMock.fee);
+    const pools = await poolController.searchPool(poolMock.symbol);
+    expect(pools).toBeDefined();
+    expect(pools.length).toBeGreaterThan(0);
+    expect(pools[0].id).toEqual(poolMock.id);
+    expect(pools[0].symbol).toEqual(poolMock.symbol);
+    expect(pools[0].fee).toEqual(poolMock.fee);
   });
 
   it('should throw error if search pool is not found', async () => {
     poolServiceMock.useValue.searchPool.mockRejectedValue(
       new NotFoundException(),
     );
-    await expect(
-      poolController.searchPool(poolMock.symbol, poolMock.fee),
-    ).rejects.toEqual(new NotFoundException());
+    await expect(poolController.searchPool(poolMock.symbol)).rejects.toEqual(
+      new NotFoundException(),
+    );
   });
 
   it('should get pools', async () => {

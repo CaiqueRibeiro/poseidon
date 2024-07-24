@@ -12,10 +12,10 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { AutomationService } from './automation.service';
-import { AuthService } from 'src/auth/auth.service';
-import { PoolService } from 'src/pool/pool.service';
-import { UserService } from 'src/user/user.service';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { AuthService } from '../auth/auth.service';
+import { PoolService } from '../pool/pool.service';
+import { UserService } from '../user/user.service';
+import { AuthGuard } from '../auth/auth.guard';
 import { AutomationDTO } from './automation.dto';
 
 @Controller('automations')
@@ -53,9 +53,7 @@ export class AutomationController {
       if (!condition) return automationResult;
 
       const tokenAddress =
-        condition.field.indexOf('proce0') !== -1 ? pool.token1 : pool.token0;
-
-      console.log(tokenAddress);
+        condition.field.indexOf('price0') !== -1 ? pool.token1 : pool.token0;
 
       // swap pré approval
     }
@@ -94,9 +92,9 @@ export class AutomationController {
     const pool = await this.poolService.getPool(automationResult.poolId);
 
     const tokenAddress =
-      condition.field.indexOf('proce0') !== -1 ? pool.token1 : pool.token0;
+      condition.field.indexOf('price0') !== -1 ? pool.token1 : pool.token0;
 
-    return automation;
+    return automationResult;
   }
 
   @UseGuards(AuthGuard)
@@ -128,7 +126,7 @@ export class AutomationController {
     const pool = await this.poolService.getPool(automation.poolId);
 
     const tokenAddress =
-      condition.field.indexOf('proce0') !== -1 ? pool.token1 : pool.token0;
+      condition.field.indexOf('price0') !== -1 ? pool.token1 : pool.token0;
 
     return automation;
   }

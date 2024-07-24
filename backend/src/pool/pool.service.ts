@@ -21,7 +21,7 @@ export class PoolService {
   }
 
   async searchPool(symbol: string): Promise<Pool[]> {
-    const pool = await db.pools.findMany({
+    const pools = await db.pools.findMany({
       where: {
         symbol: {
           equals: symbol,
@@ -30,11 +30,11 @@ export class PoolService {
       },
     });
 
-    if (!pool) {
+    if (!pools || pools.length == 0) {
       throw new NotFoundException();
     }
 
-    return pool;
+    return pools;
   }
 
   async getPools(page: number = 1, pageSize: number = 20): Promise<Pool[]> {

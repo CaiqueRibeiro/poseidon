@@ -31,7 +31,7 @@ export const poolServiceMock = {
   provide: PoolService,
   useValue: {
     getPool: jest.fn().mockResolvedValue(poolMock),
-    searchPool: jest.fn().mockResolvedValue(poolMock),
+    searchPool: jest.fn().mockResolvedValue([poolMock]),
     getPools: jest.fn().mockResolvedValue([poolMock]),
     getPoolSymbols: jest.fn().mockResolvedValue([poolMock.symbol]),
     getTopPools: jest.fn().mockResolvedValue([poolMock]),

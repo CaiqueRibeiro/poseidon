@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import { Type } from 'class-transformer';
 import {
   IsBoolean,
@@ -37,7 +38,7 @@ export class AutomationDTO {
   @IsOptional()
   @ValidateNested()
   @Type(() => ConditionDTO)
-  closeCondition: ConditionDTO;
+  closeCondition?: ConditionDTO;
 
   @IsOptional()
   @IsBoolean()

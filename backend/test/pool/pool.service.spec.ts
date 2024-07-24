@@ -36,18 +36,18 @@ describe('PoolService tests', () => {
   });
 
   it('should search pool', async () => {
-    prismaMock.pools.findFirst.mockResolvedValue({ ...poolMock } as pools);
-    const result = await poolService.searchPool(poolMock.symbol, poolMock.fee);
+    prismaMock.pools.findMany.mockResolvedValue([{ ...poolMock } as pools]);
+    const result = await poolService.searchPool(poolMock.symbol);
     expect(result).toBeDefined();
-    expect(result.symbol).toEqual(poolMock.symbol);
-    expect(result.fee).toEqual(poolMock.fee);
+    expect(result.length).toBeGreaterThan(0);
+    expect(result[0].fee).toEqual(poolMock.fee);
   });
 
   it('should throw error if pool is not found in searchPool', async () => {
-    prismaMock.pools.findUnique.mockResolvedValue(null);
-    await expect(
-      poolService.searchPool(poolMock.symbol, poolMock.fee),
-    ).rejects.toEqual(new NotFoundException());
+    prismaMock.pools.findMany.mockResolvedValue([]);
+    await expect(poolService.searchPool(poolMock.symbol)).rejects.toEqual(
+      new NotFoundException(),
+    );
   });
 
   it('should get pools', async () => {
