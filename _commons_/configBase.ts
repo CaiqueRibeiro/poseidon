@@ -13,6 +13,7 @@ export default class ConfigBase {
     static MAILER_PORT: number = parseInt(`${process.env.MAILER_PORT}`);
     static DEFAULT_FROM: string = ConfigBase.getDefaultFrom(ConfigBase.MAILER_TRANSPORT);
     static SWAP_GRAPH_URL: string = `${process.env.SWAP_GRAPH_URL}`;
+    static SWAP_ROUTER: string = `${process.env.SWAP_ROUTER}`;
 
     // database 
     static DATABASE_URL: string = `${process.env.DATABASE_URL}`;

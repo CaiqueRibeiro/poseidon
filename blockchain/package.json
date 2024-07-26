@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npx hardhat test",
     "compile": "npx hardhat compile",
-    "deploy:local": "npx hardhat ignition deploy ignition/modules/PoseidonPayTest.ts --network local",
+    "deploy:local": "npx hardhat run scripts/deploy.ts --network local",
     "deploy:test": "npx hardhat ignition deploy ignition/modules/PoseidonPay.ts --network sepolia",
     "verify:test": "npx hardhat verify --network sepolia",
     "node": "npx hardhat node --fork https://mainnet.infura.io/v3/da8a07c558ec481f89d3af7e7f786607"

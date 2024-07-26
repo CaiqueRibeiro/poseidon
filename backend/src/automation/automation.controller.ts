@@ -17,6 +17,8 @@ import { PoolService } from '../pool/pool.service';
 import { UserService } from '../user/user.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { AutomationDTO } from './automation.dto';
+import { getAllowance, preApprove } from 'commons/services/uniswapService';
+import { ethers } from 'ethers';
 
 @Controller('automations')
 export class AutomationController {
@@ -55,7 +57,7 @@ export class AutomationController {
       const tokenAddress =
         condition.field.indexOf('price0') !== -1 ? pool.token1 : pool.token0;
 
-      // swap pré approval
+      await preApprove(user, tokenAddress, automation.nextAmount);
     }
 
     return automationResult;
@@ -94,6 +96,11 @@ export class AutomationController {
     const tokenAddress =
       condition.field.indexOf('price0') !== -1 ? pool.token1 : pool.token0;
 
+    const allowance = await getAllowance(tokenAddress, user.address);
+    if (allowance < ethers.parseEther(automation.nextAmount)) {
+      await preApprove(user, tokenAddress, automation.nextAmount);
+    }
+
     return automationResult;
   }
 
@@ -127,6 +134,11 @@ export class AutomationController {
 
     const tokenAddress =
       condition.field.indexOf('price0') !== -1 ? pool.token1 : pool.token0;
+
+    const allowance = await getAllowance(tokenAddress, user.address);
+    if (allowance < ethers.parseEther(automation.nextAmount)) {
+      await preApprove(user, tokenAddress, automation.nextAmount);
+    }
 
     return automation;
   }

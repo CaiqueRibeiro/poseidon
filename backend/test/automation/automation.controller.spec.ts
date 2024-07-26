@@ -11,6 +11,8 @@ import { poolServiceMock } from '../pool/pool.service.mock';
 import { activeUserMock, userServiceMock } from '../user/user.service.mock';
 import { AutomationDTO } from '../../src/automation/automation.dto';
 
+jest.mock('commons/services/uniswapService.ts');
+
 describe('AutomationController tests', () => {
   let automationController: AutomationController;
 
