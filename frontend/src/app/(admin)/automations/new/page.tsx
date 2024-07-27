@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { ethers} from 'ethers';
 import { AdminNavbar } from "@/components/Dashboard/admin-navbar";
 import { Alert } from "@/components/Alert";
 import { RadioGroup } from "@/components/RadioGroup";
@@ -82,6 +83,35 @@ export default function AutomationManagement() {
             });
     }
 
+    function getDecimals() {
+        let decimals: number = 18;
+        if (pool && pool.decimals0 && pool.decimals1) {
+            decimals = automation.isOpened ? pool.decimals0 : pool.decimals1;
+        }
+        return decimals;
+    }
+
+    function formatAmount() {
+        if(!automation || !automation.nextAmount) return 0;
+        const decimals = getDecimals();
+        return ethers.formatUnits(automation.nextAmount, decimals) || '0';
+    }
+
+    function onAmountChange(event: React.ChangeEvent<HTMLInputElement>) {
+        if(isNaN(Number(event.target.value))) return;
+        const decimals = getDecimals();
+        const amountInWei = ethers.parseUnits(event.target.value, decimals);
+        setAutomation((prevState: any) => ({ ...prevState, nextAmount: amountInWei.toString() }));
+    }
+
+    function getAmountTooltip() {
+        if(!pool || !automation) return "";
+
+        return automation.isOpened
+        ? `${pool.symbol0 || 'Symbol0'} to sell`
+        : `${pool.symbol1 || 'Symbol1'} to buy ${pool.symbol0 || 'Symbol0'}`;
+    }
+
     return (
       <div className="min-h-screen flex flex-1 flex-col overflow-y-scroll">
         <section className="bg-cyan-950 h-2/5 flex flex-col items-stretch justify-start px-14 py-2">
@@ -153,16 +183,13 @@ export default function AutomationManagement() {
 
                         <div className="flex flex-col justify-start gap-1 w-1/4">
                             <label htmlFor="nextAmount" className="uppercase">
-                                Trade Amount <span className="text-xs">({automation.isOpened ? `${pool.symbol0 || 'Symbol0'} to sell` : `${pool.symbol1 || 'Symbol1'} to buy ${pool.symbol0 || 'Symbol0'}` })</span>
+                                Wei Amount <span className="text-xs">({getAmountTooltip()})</span>
                             </label>
                             <input
                             id="nextAmount"
                             type="text"
-                            value={automation.nextAmount}
-                            onChange={evt => {
-                                if(isNaN(Number(evt.target.value))) return;
-                                onAutomationChange(evt)
-                            }}
+                            value={formatAmount()}
+                            onChange={evt => onAmountChange(evt)}
                             className="p-2 rounded-sm bg-gray-200 border border-white focus:bg-white focus:outline-none font-light" />
                         </div>
 
