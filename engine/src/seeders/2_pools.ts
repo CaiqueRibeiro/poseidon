@@ -40,6 +40,8 @@ export class PoolsSeder implements ISeeder {
                     token1: pool.token1.id,
                     price0: parseFloat(pool.token0Price),
                     price1: parseFloat(pool.token1Price),
+                    decimals0: Number(pool.token0.decimals),
+                    decimals1: Number(pool.token1.decimals)
                 } as Pool));
             }
 

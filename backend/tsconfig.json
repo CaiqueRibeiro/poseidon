@@ -1,4 +1,10 @@
 {
+  "include": [
+    "**/*",
+    "../_commons_/**/*",
+    "../_commons_/services/Uniswap.json",
+    "../_commons_/services/ERC20.json",
+  ],
   "compilerOptions": {
     "module": "commonjs",
     "declaration": true,

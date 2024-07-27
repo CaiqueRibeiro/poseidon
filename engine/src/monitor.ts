@@ -21,8 +21,6 @@ async function executionCycle() {
 
             bulResult.push(poolResult);
             poseidonExecution(poolResult);
-
-            console.log(`Price for ${poolResult.symbol} (${poolResult.fee / 10000}%) is ${Number(poolResult.price0).toFixed(3)}`);
         }
 
         WSS.broadcast({

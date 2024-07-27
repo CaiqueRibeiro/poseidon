@@ -29,6 +29,8 @@ model pools {
   symbol          String
   symbol0         String // token symbol
   symbol1         String
+  decimals0       Int
+  decimals1       Int
   fee             Int
   exchange        Int           @default(1)
   network         Int           @default(1)

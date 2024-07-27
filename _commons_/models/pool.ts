@@ -8,6 +8,8 @@ export class Pool {
     symbol0: string;
     symbol1: string;
     symbol: string;
+    decimals0: number;
+    decimals1: number;
     fee: number;
     exchange: Exchange;
     network: ChainId;
@@ -34,6 +36,8 @@ export class Pool {
         this.symbol0 = pool.symbol0;
         this.symbol1 = pool.symbol1;
         this.symbol = pool.symbol;
+        this.decimals0 = pool.decimals0;
+        this.decimals1 = pool.decimals1;
         this.fee = pool.fee;
         this.exchange = pool.exchange;
         this.network = pool.network;

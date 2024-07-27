@@ -4,5 +4,5 @@ import monitorInit from "./monitor";
 
 monitorInit();
 
-// import payInit from "./pay";
-// payInit();
+import payInit from "./pay";
+payInit();

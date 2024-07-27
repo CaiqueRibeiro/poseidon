@@ -25,17 +25,22 @@ async function getPool(id: string): Promise<Pool | null> {
     return pool;
 }
 
-async function addPool(pool: Pool): Promise<Pool> {
+async function addPool(pool: Pool): Promise<Pool | null> {
     if(!pool.id) {
         throw new Error("Pool id is required");
     }
 
     const db = await connect();
-    const createdPool = await db.pools.create({
-        data: pool
-    });
-
-    return createdPool;
+    try {
+        const createdPool = await db.pools.create({
+            data: pool
+        });
+    
+        return createdPool;
+    } catch (error) {
+        console.log('Could not add pool');
+        return null;
+    }
 }
 
 function buildSet(newPrice: number, pool: any, tokenNumber: string, minutes: number) {
@@ -89,9 +94,12 @@ async function updatePrices(poolData: PoolData): Promise<Pool | null> {
             symbol: poolData.token0.symbol + poolData.token1.symbol,
             token0: poolData.token0.id,
             token1: poolData.token1.id,
+            decimals0: Number(poolData.token0.decimals),
+            decimals1: Number(poolData.token1.decimals)
         } as Pool);
 
        pool = await addPool(pool);
+       if(!pool) throw new Error('Pool could not be saved');
     }
 
     const newPrice0 = Number(poolData.token0Price);
