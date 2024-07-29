@@ -64,6 +64,7 @@ model users {
   activationCode String
   activationDate DateTime
   automations    automations[]
+  trades         trades[]      @ignore
 
   @@index([email])
 }
@@ -88,6 +89,7 @@ model automations {
   isOpened       Boolean    @default(false)
   isActive       Boolean    @default(false)
   nextAmount     String
+  trades         trades[]
 }
 
 model plans {
@@ -97,4 +99,21 @@ model plans {
   tokenSymbol    String
   tokenAddress   String
   maxAutomations Int
+}
+
+model trades {
+  id             String      @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String      @db.ObjectId
+  user           users       @relation(fields: [userId], references: [id])
+  automationId   String      @db.ObjectId
+  automation     automations @relation(fields: [automationId], references: [id])
+  openDate       DateTime    @default(now())
+  closeDate      DateTime?
+  openPrice      Float
+  openAmountInt  String
+  openAmountOut  String
+  closePrice     Float?
+  closeAmountIn  String?
+  closeAmountOut String?
+  pnl            Float       @default(0)
 }
