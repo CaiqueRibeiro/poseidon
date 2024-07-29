@@ -112,7 +112,7 @@ model trades {
   openDate       DateTime    @default(now())
   closeDate      DateTime?
   openPrice      Float
-  openAmountInt  String
+  openAmountIn   String
   openAmountOut  String
   closePrice     Float?
   closeAmountIn  String?

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Config from '../configBase';
-import { PoolData, TokenData } from './uniswapTypes';
+import { PoolData, TokenData, SwapData } from './uniswapTypes';
 import { ethers, TransactionReceipt, TransactionResponse } from 'ethers';
 import { Automation } from '../models/automation';
 import { Pool } from '../models/pool';
@@ -78,8 +78,8 @@ export async function getAllowance(tokenAddress: string, wallet: string): Promis
 }
 
 /* returns the quantity received in swap */
-export async function swap(user: User, automation: Automation, pool: Pool): Promise<string> {
-    if(!user.privateKey) return Promise.resolve("0"); // amountOut
+export async function swap(user: User, automation: Automation, pool: Pool): Promise<SwapData | null> {
+    if(!user.privateKey) return null; // amountOut
 
     const provider = new ethers.JsonRpcProvider(Config.RPC_NODE);
     const signer = new ethers.Wallet(user.privateKey, provider);
@@ -89,10 +89,11 @@ export async function swap(user: User, automation: Automation, pool: Pool): Prom
     const token1Contract = new ethers.Contract(pool.token1, ABI_ERC20, signer);
 
     const condition = automation.isOpened ? automation.closeCondition : automation.openCondition;
-    if (!condition) return Promise.resolve("0");
+    if (!condition) return null;
 
     // If I have price0, means I'm looking for token0, so I'll have to pay with token1 to get token0
-    const [tokenIn, tokenOut] = condition.field.indexOf("price0") !== -1
+    const isPrice0Condition = condition.field.indexOf("price0") !== -1;
+    const [tokenIn, tokenOut] = isPrice0Condition
         ? [token1Contract, token0Contract]
         : [token0Contract, token1Contract];
 
@@ -136,5 +137,11 @@ export async function swap(user: User, automation: Automation, pool: Pool): Prom
         throw new Error(`Swap error. Tx Id: ${tx.hash}`);
     }
 
-    return amountOutWei.toString();
+    return {
+        tokenIn: tokenIn.target.toString(),
+        tokenOut: tokenOut.target.toString(),
+        amountIn: amountIn.toString(),
+        amountOut: amountOutWei.toString(),
+        price: isPrice0Condition ? pool.price0 : pool.price1
+    };
 }

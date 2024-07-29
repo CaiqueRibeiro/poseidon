@@ -121,4 +121,4 @@ export default {
     getPool,
     addPool,
     updatePrices
-}
+};

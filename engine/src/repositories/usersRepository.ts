@@ -34,4 +34,4 @@ async function getUserById(userId: string): Promise<User | null> {
 export default {
     updateUserStatus,
     getUserById
-}
+};

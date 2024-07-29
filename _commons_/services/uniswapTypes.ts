@@ -17,3 +17,11 @@ export type PoolData = PriceData & {
     id: string;
     volumeUSD: string;
 }
+
+export type SwapData = {
+    tokenIn: string;
+    tokenOut: string;
+    amountIn: string;
+    amountOut: string;
+    price: number;
+}

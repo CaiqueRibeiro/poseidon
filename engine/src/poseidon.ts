@@ -5,6 +5,7 @@ import usersRepository from "./repositories/usersRepository";
 import { swap } from "commons/services/uniswapService";
 import sendMail from "./services/mailService";
 import Config from './config';
+import tradesRepository from "./repositories/tradesRepository";
 
 function evalCondition(automation: Automation, pool: Pool): boolean {
     const condition = automation.isOpened ? automation.closeCondition : automation.openCondition;
@@ -33,9 +34,24 @@ export default async(pool: Pool): Promise<void> => {
         console.log(`${user.email} will swap.`);
 
         try {
-            const amountOut = await swap(user, automation, pool);
-            if(amountOut != "0") {
-                automation.nextAmount = amountOut; // What I received now is what I'll use in next swap
+            const swapResult = await swap(user, automation, pool);
+            if(!swapResult) return;
+            if(swapResult.amountOut) {
+                automation.nextAmount = swapResult.amountOut; // What I received now is what I'll use in next swap
+            }
+            let trade;
+            if(automation.isOpened) {
+                trade = await tradesRepository.closeTrade(automation.userId, automation.id!, swapResult);
+                automation.tradeCount = automation.tradeCount ? automation.tradeCount + 1 : 1;
+                automation.pnl = automation.pnl ? automation.pnl + trade?.pnl! : trade?.pnl;
+            } else {
+                trade = await tradesRepository.addTrade({
+                    automationId: automation.id!,
+                    userId: automation.userId,
+                    openAmountIn: swapResult.amountIn,
+                    openAmountOut: swapResult.amountOut,
+                    openPrice: swapResult.price
+                })
             }
             automation.isOpened = !automation.isOpened; // switch the situation
         } catch(err) {
