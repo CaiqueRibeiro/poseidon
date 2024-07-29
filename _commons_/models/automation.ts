@@ -19,6 +19,8 @@ export class Automation {
     isOpened: boolean;
     isActive: boolean;
     nextAmount: string;
+    pnl?: number;
+    tradeCount?: number;
 
     constructor(automation: Automation) {
         this.id = automation.id;
@@ -32,5 +34,7 @@ export class Automation {
         this.isOpened = automation.isOpened;
         this.isActive = automation.isActive;
         this.nextAmount = automation.nextAmount;
+        this.pnl = automation.pnl || 0;
+        this.tradeCount = automation.tradeCount || 0;
     }
 }

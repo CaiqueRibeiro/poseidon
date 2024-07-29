@@ -22,6 +22,8 @@ export const newAutomationMock = {
     operator: '>=',
     value: '5',
   },
+  pnl: 10,
+  tradeCount: 10,
 };
 
 export const activeAutomationMock = {

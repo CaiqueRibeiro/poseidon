@@ -89,6 +89,8 @@ model automations {
   isOpened       Boolean    @default(false)
   isActive       Boolean    @default(false)
   nextAmount     String
+  pnl            Float      @default(0)
+  tradeCount     Int        @default(0)
   trades         trades[]
 }
 
