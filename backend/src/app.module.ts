@@ -8,6 +8,7 @@ import Config from './config';
 import { UserModule } from './user/user.module';
 import { PoolModule } from './pool/pool.module';
 import { AutomationModule } from './automation/automation.module';
+import { TradeModule } from './trade/trade.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { AutomationModule } from './automation/automation.module';
     UserModule,
     PoolModule,
     AutomationModule,
+    TradeModule,
     AuthModule,
   ],
   controllers: [AppController],
