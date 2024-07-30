@@ -57,7 +57,7 @@ export function PoolInput(props: PoolInputProps) {
     }
 
     function onPoolChange(pool?: Pool) {
-        props.onChange({ ...pool, symbol0: "BTC", symbol1: "WETH" } as Pool || null);
+        props.onChange({ ...pool, symbol0: "BTC", symbol1: "WETH" } as Pool);
     }
 
     return (

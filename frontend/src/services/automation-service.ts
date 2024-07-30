@@ -19,6 +19,11 @@ export async function getActiveAutomations(): Promise<Automation[]> {
     return response.data as Automation[];
 }
 
+export async function getTopAutomations(): Promise<Automation[]> {
+    const response = await axios.get(`${BACKEND_URL}/top`);
+    return response.data as Automation[];
+}
+
 export async function addAutomation(automation: Automation): Promise<Automation> {
     const response = await axios.post(`${BACKEND_URL}/`, automation);
     return response.data as Automation;
