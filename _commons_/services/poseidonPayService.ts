@@ -18,11 +18,12 @@ function getSigner(): ethers.Contract {
 }
 
 export function getCustomers(): Promise<string[]> {
-    return getContract().getCustomers();
+    const contract = getContract();
+    return contract.getCustomers();
 }
 
 export function getCustomerNextPayment(customer: string): Promise<number> {
-    return getContract().payments();
+    return getContract().payments(customer);
 }
 
 export async function pay(customer: string): Promise<string> {

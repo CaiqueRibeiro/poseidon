@@ -119,8 +119,8 @@ export async function swap(user: User, automation: Automation, pool: Pool): Prom
 
     const tx: TransactionResponse = await routerContract.exactInputSingle(params, {
         from: user.address,
-        gasPrice: ethers.parseUnits("25", "gwei"),
-        gasLimit: 250000
+        gasPrice: ethers.parseUnits("35", "gwei"),
+        gasLimit: 350000
     });
 
     console.log(`Swap Tx ID: ${tx.hash}`);
