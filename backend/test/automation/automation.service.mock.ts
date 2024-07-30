@@ -42,6 +42,7 @@ export const automationServiceMock = {
     getAutomation: jest.fn().mockResolvedValue(activeAutomationMock),
     getAutomations: jest.fn().mockResolvedValue([newAutomationMock]),
     getActiveAutomations: jest.fn().mockResolvedValue([activeAutomationMock]),
+    getTopAutomations: jest.fn().mockResolvedValue([activeAutomationMock]),
     addAutomation: jest.fn().mockResolvedValue(activeAutomationMock),
     startAutomation: jest.fn().mockResolvedValue(activeAutomationMock),
     stopAutomation: jest.fn().mockResolvedValue(inactiveAutomationMock),

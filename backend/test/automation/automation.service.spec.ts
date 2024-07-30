@@ -52,10 +52,23 @@ describe('AutomationService tests', () => {
 
   it('Should get active automations', async () => {
     prismaMock.automations.findMany.mockResolvedValue([
-      { ...newAutomationMock, ...inactiveAutomationMock },
+      { ...activeAutomationMock },
     ] as automations[]);
 
     const result = await automationService.getActiveAutomations(
+      newAutomationMock.userId,
+    );
+    expect(result).toBeDefined();
+    expect(result.length).toEqual(1);
+    expect(result[0].id).toEqual(newAutomationMock.id);
+  });
+
+  it('Should get top automations', async () => {
+    prismaMock.automations.findMany.mockResolvedValue([
+      { ...newAutomationMock },
+    ] as automations[]);
+
+    const result = await automationService.getTopAutomations(
       newAutomationMock.userId,
     );
     expect(result).toBeDefined();

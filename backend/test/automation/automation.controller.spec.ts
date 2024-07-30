@@ -62,6 +62,15 @@ describe('AutomationController tests', () => {
     expect(automation[0].isActive).toBeTruthy();
   });
 
+  it('should get top automations', async () => {
+    const automation =
+      await automationController.getTopAutomations(authorization);
+    expect(automation).toBeDefined();
+    expect(automation.length).toEqual(1);
+    expect(automation[0].id).toEqual(newAutomationMock.id);
+    expect(automation[0].isActive).toBeTruthy();
+  });
+
   it('should add automation', async () => {
     const automationData = { ...activeAutomationMock } as AutomationDTO;
     const result = await automationController.addAutomation(
