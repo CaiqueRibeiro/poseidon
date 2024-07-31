@@ -1,6 +1,10 @@
 import WebSocket, { WebSocketServer } from "ws";
 import Config from "./config";
 import { IncomingMessage } from "http";
+import jwt from 'jsonwebtoken';
+import { JWT } from 'commons/models/jwt';
+
+let whitelist = Config.CORS_ORIGIN.split(',');
 
 class PoseidonWS extends WebSocket {
     id: string;
@@ -11,7 +15,7 @@ class PoseidonWS extends WebSocket {
     }
 }
 
-class PoseidonWSS extends WebSocketServer {
+export class PoseidonWSS extends WebSocketServer {
     isConnected(userId: string): boolean {
         if(!this.clients || !this.clients.size) return false;
         return ([...this.clients] as PoseidonWS[]).some(client => client.id === userId);
@@ -23,6 +27,7 @@ class PoseidonWSS extends WebSocketServer {
     }
 
     direct(userId: string, message: Object) {
+        console.log(`Sending a direct message to ${userId}`);
         if(!this.clients || !this.clients.size) return;
         ([...this.clients] as PoseidonWS[]).forEach(client => {
             if(client.id === userId && client.readyState === WebSocket.OPEN) {
@@ -44,8 +49,8 @@ class PoseidonWSS extends WebSocketServer {
 
 let wss: PoseidonWSS;
 
-function verifyClient(info: any, cb: Function) {
-    return cb(true);
+function corsValidation(origin: string) {
+    return whitelist[0] === '*' || whitelist.includes(origin);
 }
 
 export default (): PoseidonWSS => {
@@ -53,22 +58,29 @@ export default (): PoseidonWSS => {
 
     wss = new PoseidonWSS({
         port: Config.WS_PORT,
-        verifyClient
     });
 
     wss.on('connection', (ws: PoseidonWS, req: IncomingMessage) => {
-        if(!req.url) return;
-        ws.id = req.url;
+        if(!req.url || !req.headers.origin || !corsValidation(req.headers.origin)) {
+            throw new Error('CORS Policy');
+        };
 
-        ws.on('message', data => {
-            console.log(data);
-        });
+        const token = req.url.split('token=')[1];
+        if (!token) return;
+        const decoded = jwt.verify(token, Config.JWT_SECRET) as JWT;
+        if(!decoded) return;
 
-        ws.on('error', error => {
-            console.error(error);
-        });
+        if(!wss.isConnected(decoded.userId)) {
+            ws.id = decoded.userId;
+            ws.on('message', data => {
+                console.log(data);
+            });
+            ws.on('error', error => {
+                console.error(error);
+            });
+            console.log(`ws.onConnection: ${req.url}`);
+        }
 
-        console.log(`ws.onConnection: ${req.url}`);
     });
 
     console.log(`Poseidon WebSocket listening on port ${Config.WS_PORT}`);

@@ -20,7 +20,7 @@ async function executionCycle() {
             if(!poolResult) continue;
 
             bulResult.push(poolResult);
-            poseidonExecution(poolResult);
+            poseidonExecution(poolResult, WSS);
         }
 
         WSS.broadcast({

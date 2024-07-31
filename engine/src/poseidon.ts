@@ -6,6 +6,7 @@ import { swap } from "commons/services/uniswapService";
 import sendMail from "./services/mailService";
 import Config from './config';
 import tradesRepository from "./repositories/tradesRepository";
+import { PoseidonWSS } from "./wss";
 
 function evalCondition(automation: Automation, pool: Pool): boolean {
     const condition = automation.isOpened ? automation.closeCondition : automation.openCondition;
@@ -17,7 +18,7 @@ function evalCondition(automation: Automation, pool: Pool): boolean {
     return Function("pool", "return " + ifCondition)(pool);
 }
 
-export default async(pool: Pool): Promise<void> => {
+export default async(pool: Pool, WSS: PoseidonWSS): Promise<void> => {
     // search automations
     const automations = await automationsRepository.searchAutomation(pool.id);
     if(!automations || automations.length == 0) return;
@@ -51,12 +52,15 @@ export default async(pool: Pool): Promise<void> => {
                     openAmountIn: swapResult.amountIn,
                     openAmountOut: swapResult.amountOut,
                     openPrice: swapResult.price
-                })
+                });
+                WSS.direct(automation.userId, { type: 'success', trade});
             }
             automation.isOpened = !automation.isOpened; // switch the situation
-        } catch(err) {
+        } catch(err: any) {
             console.error(`Cannot swap. Automation ID: ${automation.id}`);
             automation.isActive = false;
+
+            WSS.direct(automation.userId, { type: 'error', text: err.message });
 
             await sendMail(user.email, "Poseidon - Automation Error", `
                 Hi, ${user.name}!
