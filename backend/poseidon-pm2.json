@@ -1,0 +1,9 @@
+{
+    "apps": [
+        {
+            "name": "poseidon-backend",
+            "scripts": "npm",
+            "arg": "start"
+        }
+    ]
+}

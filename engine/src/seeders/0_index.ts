@@ -3,7 +3,7 @@ import tokensSeeder from './1_tokens';
 import poolsSeeder from './2_pools';
 
 const seeders: ISeeder[] = [
-    // tokensSeeder,
+    tokensSeeder,
     poolsSeeder
 ]; 
 
