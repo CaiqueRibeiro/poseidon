@@ -6,6 +6,9 @@ const nextConfig = {
         POSEIDON_PAY_CONTRACT: process.env.POSEIDON_PAY_CONTRACT,
         BACKEND_URL: process.env.BACKEND_URL,
         WSS_URL: process.env.WSS_URL,
+    },
+    experimental: {
+        missingSuspenseWithCSRBailout: false,
     }
 };
 

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ethers} from 'ethers';
 import { AdminNavbar } from "@/components/Dashboard/admin-navbar";
@@ -14,7 +14,7 @@ import { Pool } from "commons/models/pool";
 import { ConditionInput } from "./condition-input";
 import { addAutomation, getAutomation, updateAutomation } from "@/services/automation-service";
 
-function AutomationManagement() {
+export default function AutomationManagement() {
     const defaultAutomation = {
         isOpened: false,
         isActive: false,
@@ -208,10 +208,4 @@ function AutomationManagement() {
       </div>
     );
 }
-
-  export default function SuspenseAutomationManagement() {
-    <Suspense>
-        <AutomationManagement />
-    </Suspense>
-  }
   

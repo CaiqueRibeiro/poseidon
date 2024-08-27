@@ -4,10 +4,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { DefaultCard } from "@/components/default-card";
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState } from "react";
 import { activate, signOut } from "@/services/auth-service";
 
-function Activate() {
+export default function Activate() {
     const { push } = useRouter();
     const searchParams = useSearchParams();
 
@@ -88,13 +88,5 @@ function Activate() {
                 <span className="text-gray-300 text-sm font-semibold">Back to login</span>
             </Link>
         </div>
-    )
-}
-
-export default function SuspenseActive() {
-    return (
-        <Suspense>
-            <Activate />
-        </Suspense>
     )
 }

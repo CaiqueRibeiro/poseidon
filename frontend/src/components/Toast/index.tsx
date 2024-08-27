@@ -59,7 +59,7 @@ export function Toast() {
             setNotification({} as WSMessage);
         });
 
-    }, [notification.text, notification.type, notification.trade]);
+    }, [notification.text, notification.type, notification.trade, WSS_URL]);
 
     const { lastJsonMessage } = useWebSocket(url, {
         onOpen: () => console.log('WSS connected'),
