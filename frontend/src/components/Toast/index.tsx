@@ -11,11 +11,11 @@ type WSMessage = {
 }
 
 export function Toast() {
-    const [url, setUrl] = useState<string>(`${process.env.WSS_URL}?token=`);
+    const WSS_URL = `${process.env.WSS_URL}`;
+    const [url, setUrl] = useState<string>(`${WSS_URL}?token=`);
     const [notification, setNotification] = useState<WSMessage>({} as WSMessage);
 
     useEffect(() => {
-        const WSS_URL = `${process.env.WSS_URL}?token=`;
         setUrl(`${WSS_URL}?token=${localStorage.getItem("token")}`);
 
         if(!notification.text && !notification.trade) return;
