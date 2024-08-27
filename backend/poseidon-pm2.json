@@ -2,7 +2,7 @@
     "apps": [
         {
             "name": "poseidon-backend",
-            "scripts": "npm",
+            "script": "npm",
             "arg": "start"
         }
     ]
