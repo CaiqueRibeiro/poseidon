@@ -40,7 +40,7 @@ export function AutomationRow(props: AutomationRowProps) {
   }
 
   async function btnEditClick() {
-    push(`/automations/${props.data.id}`);
+    push(`/automations/new?id=${props.data.id}`);
   }
 
   async function btnDeleteClick() {
